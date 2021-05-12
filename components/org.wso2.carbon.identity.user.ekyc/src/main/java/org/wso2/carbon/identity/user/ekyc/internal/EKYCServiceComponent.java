@@ -41,10 +41,6 @@ public class EKYCServiceComponent {
 
     private EKYCServiceDataHolder dataHolder = EKYCServiceDataHolder.getInstance();
 
-//    private ConfigurationManager configurationManager;
-
-//    private AbstractUserStoreManager userStoreManager;
-
     @Activate
     protected void activate(BundleContext context) {
         try {
