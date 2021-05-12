@@ -1,0 +1,39 @@
+{
+  "_id": "608fcf28bf42a60d7b21f43a",
+  "verification": {
+    "evidence": [
+      {
+        "verifier": {
+          "organization": "Passbase",
+          "txn": "7fae7dbc-bd5d-40ba-b741-c38b9854e61e"
+        },
+        "document": {
+          "type": "driving_permit",
+          "issuer": {
+            "name": null
+          },
+          "number": "22118583",
+          "date_of_issuance": null,
+          "date_of_expiry": "2023-08-11"
+        },
+        "type": "id_document",
+        "method": "uripp",
+        "time": "2021-05-03T10:17:40.521Z"
+      }
+    ],
+    "trust_framework": null,
+    "time": "2021-05-03T10:17:40.521Z",
+    "verification_process": "7fae7dbc-bd5d-40ba-b741-c38b9854e61e"
+  },
+  "claims": {
+    "given_name": "John",
+    "family_name": "Doe",
+    "birthdate": "1992-06-13"
+  },
+  "metadata": {
+    "source": "Passbase",
+    "document": "driving_permit"
+  },
+  "sub": "c9bff277-7a53-4c94-b0f0-0cc434f44169",
+  "sessionId": "26abaf91-c607-42d9-928d-c2a394c16354"
+}
