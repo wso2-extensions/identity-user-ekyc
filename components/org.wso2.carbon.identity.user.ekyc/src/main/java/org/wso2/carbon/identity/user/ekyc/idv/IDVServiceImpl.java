@@ -71,9 +71,11 @@ public class IDVServiceImpl implements IDVService {
     }
 
     @Override
-    public EKYCSessionDTO generateNewSession(String service, List<String> claims) throws IDVException, ConfigurationManagementException {
+    public EKYCSessionDTO generateNewSession(String service, List<String> claims) throws IDVException,
+            ConfigurationManagementException {
         try {
-            EKYCSesssionRequestDTO ekycSesssionRequest = new EKYCSesssionRequestDTO(service, claims, getEKYCConfiguration()
+            EKYCSesssionRequestDTO ekycSesssionRequest = new EKYCSesssionRequestDTO(service, claims,
+                    getEKYCConfiguration()
                     .getCallbackUrl());
             HttpPost request = getJsonPostRequest(IDVConstants.UrlPaths.GET_SESSION_PATH, ekycSesssionRequest);
             EKYCSessionDTO ekycSessionDTO = executeCall(request, EKYCSessionDTO.class);
@@ -84,7 +86,8 @@ public class IDVServiceImpl implements IDVService {
     }
 
     @Override
-    public JsonObject getSessionVc(String userId, String sessionId) throws IDVException, ConfigurationManagementException {
+    public JsonObject getSessionVc(String userId, String sessionId) throws IDVException,
+            ConfigurationManagementException {
         try {
             EKYCVCRequestDTO ekycvcRequestDTO = new EKYCVCRequestDTO(userId, sessionId);
             HttpPost request = getJsonPostRequest(IDVConstants.UrlPaths.POST_VC_PATH, ekycvcRequestDTO);
@@ -101,11 +104,15 @@ public class IDVServiceImpl implements IDVService {
     }
 
     @Override
-    public EKYCVerifyClaimResponseDTO getVerifyClaim(String sessionId, String claim, String value) throws IDVException, ConfigurationManagementException {
+    public EKYCVerifyClaimResponseDTO getVerifyClaim(String sessionId, String claim, String value) throws
+            IDVException, ConfigurationManagementException {
         try {
-            EKYCVerifyClaimRequestDTO ekycVerifyClaimRequestDTO = new EKYCVerifyClaimRequestDTO(sessionId, claim, value);
-            HttpPost request = getJsonPostRequest(IDVConstants.UrlPaths.POST_CLAIM_VERIFY_PATH, ekycVerifyClaimRequestDTO);
-            EKYCVerifyClaimResponseDTO ekycVerifyClaimResponseDTO = executeCall(request, EKYCVerifyClaimResponseDTO.class);
+            EKYCVerifyClaimRequestDTO ekycVerifyClaimRequestDTO = new EKYCVerifyClaimRequestDTO(sessionId, claim,
+                    value);
+            HttpPost request = getJsonPostRequest(IDVConstants.UrlPaths.POST_CLAIM_VERIFY_PATH,
+                    ekycVerifyClaimRequestDTO);
+            EKYCVerifyClaimResponseDTO ekycVerifyClaimResponseDTO = executeCall(request, EKYCVerifyClaimResponseDTO
+                    .class);
             return ekycVerifyClaimResponseDTO;
         } catch (IOException e) {
             throw new IDVException(IDVConstants.ErrorMessages.IDV_CONNECTION_ERROR, e);
@@ -122,7 +129,8 @@ public class IDVServiceImpl implements IDVService {
         return result;
     }
 
-    private HttpPost getJsonPostRequest(String path, Object body) throws UnsupportedEncodingException, ConfigurationManagementException {
+    private HttpPost getJsonPostRequest(String path, Object body) throws UnsupportedEncodingException,
+            ConfigurationManagementException {
         HttpPost request = new HttpPost(getEKYCConfiguration().getUrl() + path);
         request.setHeader("Content-type", ContentType.APPLICATION_JSON.toString());
         request.setEntity(new StringEntity(new Gson().toJson(body)));
@@ -136,7 +144,8 @@ public class IDVServiceImpl implements IDVService {
     }
 
 
-    private HttpClient newClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException, ConfigurationManagementException {
+    private HttpClient newClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException,
+            ConfigurationManagementException {
         if (getEKYCConfiguration().isSkipTlsCheck()) {
             CloseableHttpClient httpClient = HttpClients.custom().
                     setHostnameVerifier(new AllowAllHostnameVerifier()).

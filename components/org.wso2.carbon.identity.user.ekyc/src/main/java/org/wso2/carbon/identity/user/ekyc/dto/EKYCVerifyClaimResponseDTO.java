@@ -22,4 +22,34 @@ public class EKYCVerifyClaimResponseDTO {
     private String vcValue;
     private String claimValue;
     private Double similarity;
+
+    public EKYCVerifyClaimResponseDTO(String vcValue, String claimValue, Double similarity) {
+        this.vcValue = vcValue;
+        this.claimValue = claimValue;
+        this.similarity = similarity;
+    }
+
+    public String getVcValue() {
+        return vcValue;
+    }
+
+    public void setVcValue(String vcValue) {
+        this.vcValue = vcValue;
+    }
+
+    public String getClaimValue() {
+        return claimValue;
+    }
+
+    public void setClaimValue(String claimValue) {
+        this.claimValue = claimValue;
+    }
+
+    public Double getSimilarity() {
+        return similarity;
+    }
+
+    public void setSimilarity(Double similarity) {
+        this.similarity = similarity;
+    }
 }

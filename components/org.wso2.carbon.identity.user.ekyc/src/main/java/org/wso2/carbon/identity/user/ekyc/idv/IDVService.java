@@ -27,7 +27,11 @@ import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
 import java.util.List;
 
 public interface IDVService {
-    EKYCSessionDTO generateNewSession(String service, List<String> claims) throws IDVException, ConfigurationManagementException;
+    EKYCSessionDTO generateNewSession(String service, List<String> claims)
+            throws IDVException, ConfigurationManagementException;
+
     JsonObject getSessionVc(String userId, String sessionId) throws IDVException, ConfigurationManagementException;
-    EKYCVerifyClaimResponseDTO getVerifyClaim(String sessionId, String claim, String value) throws IDVException, ConfigurationManagementException;
+
+    EKYCVerifyClaimResponseDTO getVerifyClaim(String sessionId, String claim, String value)
+            throws IDVException, ConfigurationManagementException;
 }

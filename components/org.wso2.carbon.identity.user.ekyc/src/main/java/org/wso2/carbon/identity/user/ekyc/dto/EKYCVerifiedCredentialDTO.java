@@ -35,14 +35,15 @@ public class EKYCVerifiedCredentialDTO {
         this.status = status;
     }
 
-    public EKYCVerifiedCredentialDTO(String sessionId, String userId, String status, String vc) {
+    public EKYCVerifiedCredentialDTO(String sessionId, String userId, String status, String verifiedCredential) {
         this.sessionId = sessionId;
         this.userId = userId;
         this.status = status;
-        this.verifiedCredential = vc;
+        this.verifiedCredential = verifiedCredential;
     }
 
-    public EKYCVerifiedCredentialDTO(String sessionId, String userId, int tenantId, String status, String verifiedCredential) {
+    public EKYCVerifiedCredentialDTO(String sessionId, String userId, int tenantId, String status,
+                                     String verifiedCredential) {
         this.sessionId = sessionId;
         this.userId = userId;
         this.tenantId = tenantId;

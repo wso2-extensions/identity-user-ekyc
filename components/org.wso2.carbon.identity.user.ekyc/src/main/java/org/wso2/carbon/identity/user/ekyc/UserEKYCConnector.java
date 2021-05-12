@@ -34,13 +34,16 @@ public interface UserEKYCConnector {
      *
      * @throws UserEKYCException
      */
-    EKYCSessionDTO generateNewSession(String userId, int tenantId, String service, List<String> claims) throws UserEKYCException, IDVException, ConfigurationManagementException;
+    EKYCSessionDTO generateNewSession(String userId, int tenantId, String service, List<String> claims) throws
+            UserEKYCException, IDVException, ConfigurationManagementException;
 
     List<EKYCVerifiedCredentialDTO> getVerifiedCredentials(String userId, int tenantId) throws UserEKYCException;
 
     void deleteVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException;
 
-    EKYCVerifiedCredentialDTO getPendingVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException, IDVException, ConfigurationManagementException;
+    EKYCVerifiedCredentialDTO getPendingVerifiedCredential(String sessionId, String userId, int tenantId) throws
+            UserEKYCException, IDVException, ConfigurationManagementException;
 
-    void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int tenantId) throws UserEKYCException, UserStoreException, ConfigurationManagementException;
+    void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int tenantId)
+            throws UserEKYCException, UserStoreException, ConfigurationManagementException;
 }

@@ -67,7 +67,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
     @Override
-    public EKYCSessionDTO generateNewSession(String userId, int tenantId, String service, List<String> claims) throws UserEKYCException, IDVException, ConfigurationManagementException {
+    public EKYCSessionDTO generateNewSession(String userId, int tenantId, String service, List<String> claims) throws
+            UserEKYCException, IDVException, ConfigurationManagementException {
         EKYCSessionDTO ekycSessionDTO = getIdvService().generateNewSession(service, claims);
         EKYCVerifiedCredentialDAO.getInstance().createUserEKYC(
                 ekycSessionDTO.getSessionId(),
@@ -80,7 +81,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
     @Override
-    public List<EKYCVerifiedCredentialDTO> getVerifiedCredentials(String userId, int tenantId) throws UserEKYCException {
+    public List<EKYCVerifiedCredentialDTO> getVerifiedCredentials(String userId, int tenantId) throws
+            UserEKYCException {
         List<EKYCVerifiedCredentialDTO> ekycVerifiedCredentialDTOs = EKYCVerifiedCredentialDAO
                 .getInstance().getUserEKYCVCs(userId, tenantId);
         log.debug("User VCs " + Arrays.toString(ekycVerifiedCredentialDTOs.toArray()));
@@ -95,7 +97,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
     @Override
-    public EKYCVerifiedCredentialDTO getPendingVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException, IDVException, ConfigurationManagementException {
+    public EKYCVerifiedCredentialDTO getPendingVerifiedCredential(String sessionId, String userId, int tenantId)
+            throws UserEKYCException, IDVException, ConfigurationManagementException {
         EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO = EKYCVerifiedCredentialDAO
                 .getInstance().getUserEKYCVC(sessionId, userId, tenantId);
         if (ekycVerifiedCredentialDTO != null && isVerifiedCredentialPending(ekycVerifiedCredentialDTO)) {
@@ -109,11 +112,13 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
     @Override
-    public void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int tenantId) throws UserEKYCException, ConfigurationManagementException, UserStoreException {
+    public void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int
+            tenantId) throws UserEKYCException, ConfigurationManagementException, UserStoreException {
         EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO = EKYCVerifiedCredentialDAO
                 .getInstance().getUserEKYCVC(sessionId, userId, tenantId);
         if (isUpdatePossible(ekycVerifiedCredentialDTO, tenantId)) {
-            EKYCVerifiedCredentialDataDTO ekycVerifiedCredentialDataDTO = getEkycVerifiedCredentialDataDTO(ekycVerifiedCredentialDTO);
+            EKYCVerifiedCredentialDataDTO ekycVerifiedCredentialDataDTO = getEkycVerifiedCredentialDataDTO
+                    (ekycVerifiedCredentialDTO);
             Map<String, String> claimsMapping = getClaimsMapping();
             Map<String, String> mappedClaims = ekycVerifiedCredentialDataDTO.getClaims().entrySet().stream()
                     .filter((entry) -> claimsMapping.keySet().contains(entry.getKey()))
@@ -128,7 +133,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
         return EKYCServiceDataHolder.getInstance().getIdvService();
     }
 
-    private EKYCVerifiedCredentialDataDTO getEkycVerifiedCredentialDataDTO(EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO) {
+    private EKYCVerifiedCredentialDataDTO getEkycVerifiedCredentialDataDTO(EKYCVerifiedCredentialDTO
+                                                                                   ekycVerifiedCredentialDTO) {
         return new Gson().fromJson(ekycVerifiedCredentialDTO
                 .getVerifiedCredential(), EKYCVerifiedCredentialDataDTO.class);
     }
@@ -141,7 +147,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
         return claimsMapping;
     }
 
-    private Map.Entry<String, String> getMappedClaim(Map.Entry<String, Object> claim, Map<String, String> claimsMapping) {
+    private Map.Entry<String, String> getMappedClaim(Map.Entry<String, Object> claim, Map<String, String>
+            claimsMapping) {
         return new AbstractMap.SimpleEntry<String, String>(
                 claimsMapping.get(claim.getKey()),
                 claim.getValue().toString());
@@ -152,7 +159,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
 
-    private boolean isUpdatePossible(EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO, int tenantId) throws UserStoreException {
+    private boolean isUpdatePossible(EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO, int tenantId) throws
+            UserStoreException {
         return !getUserStoreManager(tenantId).isReadOnly() &&
                 ekycVerifiedCredentialDTO != null &&
                 ekycVerifiedCredentialDTO.getStatus().equals(UserEKYCConstants.EKYCProccessStatuses.FINISHED);
