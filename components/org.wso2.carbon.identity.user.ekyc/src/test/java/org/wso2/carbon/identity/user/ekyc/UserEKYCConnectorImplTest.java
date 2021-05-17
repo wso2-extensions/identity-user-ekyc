@@ -1,13 +1,17 @@
 package org.wso2.carbon.identity.user.ekyc;
 
 import com.google.common.io.Resources;
-import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.quality.Strictness;
 import org.mockito.testng.MockitoSettings;
+import org.mockito.testng.MockitoTestNGListener;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 import org.wso2.carbon.identity.configuration.mgt.core.ConfigurationManager;
 import org.wso2.carbon.identity.configuration.mgt.core.exception.ConfigurationManagementException;
 import org.wso2.carbon.identity.configuration.mgt.core.model.Attribute;
@@ -16,7 +20,6 @@ import org.wso2.carbon.identity.user.ekyc.dao.EKYCVerifiedCredentialDAO;
 import org.wso2.carbon.identity.user.ekyc.dto.EKYCVerifiedCredentialDTO;
 import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
 import org.wso2.carbon.identity.user.ekyc.exception.UserEKYCException;
-import org.mockito.testng.MockitoTestNGListener;
 import org.wso2.carbon.identity.user.ekyc.idv.IDVService;
 import org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceDataHolder;
 import org.wso2.carbon.user.core.UserRealm;

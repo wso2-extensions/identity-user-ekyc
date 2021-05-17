@@ -27,23 +27,68 @@ import org.wso2.carbon.user.api.UserStoreException;
 
 import java.util.List;
 
+
 public interface UserEKYCConnector {
 
     /**
-     * Generate new session for eKYC process
+     * Generate new EKYC session
      *
+     * @param userId
+     * @param tenantId
+     * @param service Name of the service that shoudl be used in IDV, optional
+     * @param claims List of claims that should be returned in Verified Credential
+     * @return <code>EKYCSessionDTO</code> with new session and redirect Url to initiate EKC process
      * @throws UserEKYCException
+     * @throws IDVException
+     * @throws ConfigurationManagementException
      */
     EKYCSessionDTO generateNewSession(String userId, int tenantId, String service, List<String> claims) throws
             UserEKYCException, IDVException, ConfigurationManagementException;
 
+    /**
+     * Get all verified credentials of user
+     *
+     * @param userId
+     * @param tenantId
+     * @return <code>List<EKYCVerifiedCredentialDTO></code>List of Verified Credentials
+     * @throws UserEKYCException
+     */
     List<EKYCVerifiedCredentialDTO> getVerifiedCredentials(String userId, int tenantId) throws UserEKYCException;
 
+    /**
+     * Delete Verified Credential
+     *
+     * @param sessionId
+     * @param userId
+     * @param tenantId
+     * @throws UserEKYCException
+     */
     void deleteVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException;
 
+    /**
+     * Fetch update of Verified Credential from IDV hub and save it in db
+     * @param sessionId
+     * @param userId
+     * @param tenantId
+     * @return <code>EKYCVerifiedCredentialDTO</code>Verified Credential
+     * @throws UserEKYCException
+     * @throws IDVException
+     * @throws ConfigurationManagementException
+     */
     EKYCVerifiedCredentialDTO getPendingVerifiedCredential(String sessionId, String userId, int tenantId) throws
             UserEKYCException, IDVException, ConfigurationManagementException;
 
+    /**
+     * Update user claims from Verified Claims based on IDV configuration mapping
+     *
+     * @param sessionId
+     * @param userId
+     * @param userName
+     * @param tenantId
+     * @throws UserEKYCException
+     * @throws UserStoreException
+     * @throws ConfigurationManagementException
+     */
     void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int tenantId)
             throws UserEKYCException, UserStoreException, ConfigurationManagementException;
 }
