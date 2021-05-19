@@ -83,12 +83,11 @@ public interface UserEKYCConnector {
      *
      * @param sessionId
      * @param userId
-     * @param userName
      * @param tenantId
      * @throws UserEKYCException
      * @throws UserStoreException
      * @throws ConfigurationManagementException
      */
-    void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int tenantId)
+    void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, int tenantId)
             throws UserEKYCException, UserStoreException, ConfigurationManagementException;
 }

@@ -25,6 +25,7 @@ import org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceDataHolder;
 import org.wso2.carbon.user.core.UserRealm;
 import org.wso2.carbon.user.core.UserStoreException;
 import org.wso2.carbon.user.core.UserStoreManager;
+import org.wso2.carbon.user.core.common.AbstractUserStoreManager;
 import org.wso2.carbon.user.core.service.RealmService;
 
 import java.io.IOException;
@@ -54,21 +55,22 @@ public class UserEKYCConnectorImplTest {
     private static final String TEST_USERNAME = "test-username";
     private static final int TEST_TENANT_ID = 1234;
     private static final String TEST_VC_STATUS = FINISHED;
-    private  String TEST_VC_DATA;
-    private  EKYCVerifiedCredentialDTO TEST_VC;
+    private String TEST_VC_DATA;
+    private EKYCVerifiedCredentialDTO TEST_VC;
 
     private EKYCVerifiedCredentialDAO ekycVerifiedCredentialDAO;
     private EKYCServiceDataHolder ekycServiceDataHolder;
     private RealmService realmService;
     private UserRealm userRealm;
     private IDVService idvService;
-    private UserStoreManager userStoreManager;
+    private AbstractUserStoreManager userStoreManager;
     private ConfigurationManager configurationManager;
-    private ArgumentCaptor<Map<String,String>> claimsCaptor;
+    private ArgumentCaptor<Map<String, String>> claimsCaptor;
     private ArgumentCaptor<String> vcCaptor;
 
     @BeforeClass
-    public void before()  throws org.wso2.carbon.user.api.UserStoreException, ConfigurationManagementException, IOException{
+    public void before() throws org.wso2.carbon.user.api.UserStoreException, ConfigurationManagementException,
+            IOException {
         TEST_VC_DATA = getTestVc();
         TEST_VC = new EKYCVerifiedCredentialDTO(
                 TEST_SESSION_ID,
@@ -82,7 +84,7 @@ public class UserEKYCConnectorImplTest {
         realmService = mock(RealmService.class);
         userRealm = mock(UserRealm.class);
         idvService = mock(IDVService.class);
-        userStoreManager = mock(UserStoreManager.class);
+        userStoreManager = mock(AbstractUserStoreManager.class);
         configurationManager = mock(ConfigurationManager.class);
         claimsCaptor = ArgumentCaptor.forClass(Map.class);
         vcCaptor = ArgumentCaptor.forClass(String.class);
@@ -105,13 +107,16 @@ public class UserEKYCConnectorImplTest {
     }
 
     @Test
-    public void getPendingVerifiedCredential() throws UserEKYCException, IDVException, ConfigurationManagementException, UserStoreException, IOException {
+    public void getPendingVerifiedCredential() throws UserEKYCException, IDVException,
+            ConfigurationManagementException, UserStoreException, IOException {
         //BEFORE
         TEST_VC.setStatus(PENDING);
-        when(ekycVerifiedCredentialDAO.getUserEKYCVC(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID)).thenReturn(TEST_VC);
-        when(idvService.getSessionVc(TEST_USER_ID,TEST_SESSION_ID)).thenReturn(new JsonParser().parse(TEST_VC_DATA).getAsJsonObject());
+        when(ekycVerifiedCredentialDAO.getUserEKYCVC(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID))
+                .thenReturn(TEST_VC);
+        when(idvService.getSessionVc(TEST_USER_ID, TEST_SESSION_ID))
+                .thenReturn(new JsonParser().parse(TEST_VC_DATA).getAsJsonObject());
         //TEST
-        UserEKYCConnectorImpl.getInstance().getPendingVerifiedCredential(TEST_SESSION_ID,TEST_USER_ID,TEST_TENANT_ID);
+        UserEKYCConnectorImpl.getInstance().getPendingVerifiedCredential(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID);
         //ASSERT
         verify(ekycVerifiedCredentialDAO).updateVerifiedCredential(
                 matches(TEST_SESSION_ID),
@@ -120,22 +125,25 @@ public class UserEKYCConnectorImplTest {
                 vcCaptor.capture(),
                 matches(FINISHED));
         String vc = vcCaptor.getValue();
-        Assert.assertEquals(vc,getTestVc());
+        Assert.assertEquals(vc, getTestVc());
     }
 
     @Test
-    public void testUpdateUserClaimsFromVerifiedCredential() throws UserEKYCException, org.wso2.carbon.user.api.UserStoreException, ConfigurationManagementException {
+    public void testUpdateUserClaimsFromVerifiedCredential() throws UserEKYCException, org.wso2.carbon.user.api
+            .UserStoreException, ConfigurationManagementException {
         //BEFORE
         TEST_VC.setStatus(FINISHED);
-        when(ekycVerifiedCredentialDAO.getUserEKYCVC(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID)).thenReturn(TEST_VC);
+        when(ekycVerifiedCredentialDAO.getUserEKYCVC(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID))
+                .thenReturn(TEST_VC);
         //TEST
-        UserEKYCConnectorImpl.getInstance().updateUserClaimsFromVerifiedCredential(TEST_SESSION_ID,TEST_USER_ID,TEST_USERNAME,TEST_TENANT_ID);
+        UserEKYCConnectorImpl.getInstance()
+                .updateUserClaimsFromVerifiedCredential(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID);
         //ASSERT
-        verify(userStoreManager).setUserClaimValues(matches(TEST_USERNAME),claimsCaptor.capture(),any());
-        Map<String,String> claimsToModify = claimsCaptor.getValue();
-        Assert.assertEquals(claimsToModify.size(),2);
-        Assert.assertEquals(claimsToModify.get("http://wso2.org/claims/lastname"),"Doe");
-        Assert.assertEquals(claimsToModify.get("http://wso2.org/claims/firstname"),"John");
+        verify(userStoreManager).setUserClaimValuesWithID(matches(TEST_USER_ID), claimsCaptor.capture(), any());
+        Map<String, String> claimsToModify = claimsCaptor.getValue();
+        Assert.assertEquals(claimsToModify.size(), 2);
+        Assert.assertEquals(claimsToModify.get("http://wso2.org/claims/lastname"), "Doe");
+        Assert.assertEquals(claimsToModify.get("http://wso2.org/claims/firstname"), "John");
     }
 
     private Resource getEkycResource() throws IOException {
@@ -144,7 +152,7 @@ public class UserEKYCConnectorImplTest {
         Resource ekycResource = new Resource(EKYC_RESOURCE_TYPE, RESOURCE_NAME);
 
         List<Attribute> attributeList = ekycProperty.entrySet().stream()
-                .map((entry)-> new Attribute(entry.getKey().toString(),entry.getValue().toString()))
+                .map((entry) -> new Attribute(entry.getKey().toString(), entry.getValue().toString()))
                 .collect(Collectors.toList());
         ekycResource.setAttributes(attributeList);
 
@@ -152,6 +160,8 @@ public class UserEKYCConnectorImplTest {
     }
 
     private String getTestVc() throws IOException {
-        return new JsonParser().parse(Resources.toString(getClass().getClassLoader().getResource("vc.json"), StandardCharsets.UTF_8)).toString();
+        return new JsonParser()
+                .parse(Resources.toString(getClass().getClassLoader().getResource("vc.json"), StandardCharsets.UTF_8))
+                .toString();
     }
 }

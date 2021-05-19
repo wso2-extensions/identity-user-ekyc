@@ -178,12 +178,6 @@
                 <groupId>org.wso2.carbon.identity.framework</groupId>
                 <artifactId>org.wso2.carbon.identity.configuration.mgt.core</artifactId>
                 <version>${carbon.identity.framework.version}</version>
-                <exclusions>
-                    <exclusion>
-                            <groupId>org.wso2.carbon</groupId>
-                            <artifactId>org.wso2.carbon.ui</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.identity.inbound.auth.oauth2</groupId>
@@ -339,7 +333,7 @@
         <httpcore.wso2.version>4.3.3.wso2v1</httpcore.wso2.version>
         <carbon.kernel.core.version>5.2.13</carbon.kernel.core.version>
         <carbon.kernel.version>4.6.2</carbon.kernel.version>
-        <carbon.identity.framework.version>5.20.50</carbon.identity.framework.version>
+        <carbon.identity.framework.version>5.19.20</carbon.identity.framework.version>
         <identity.inbound.auth.oauth.version>6.2.28</identity.inbound.auth.oauth.version>
         <carbon.commons.version>4.7.11</carbon.commons.version>
         <commons-lang.wso2.version>2.6.0.wso2v1</commons-lang.wso2.version>

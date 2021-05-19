@@ -36,7 +36,7 @@ import org.wso2.carbon.identity.user.ekyc.idv.IDVService;
 import org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceDataHolder;
 import org.wso2.carbon.identity.user.ekyc.util.UserEKYCConstants;
 import org.wso2.carbon.user.api.UserStoreException;
-import org.wso2.carbon.user.api.UserStoreManager;
+import org.wso2.carbon.user.core.common.AbstractUserStoreManager;
 
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -112,8 +112,8 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
     @Override
-    public void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, String userName, int
-            tenantId) throws UserEKYCException, ConfigurationManagementException, UserStoreException {
+    public void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, int tenantId) throws
+            UserEKYCException, ConfigurationManagementException, UserStoreException {
         EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO = EKYCVerifiedCredentialDAO
                 .getInstance().getUserEKYCVC(sessionId, userId, tenantId);
         if (isUpdatePossible(ekycVerifiedCredentialDTO, tenantId)) {
@@ -125,7 +125,7 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
                     .map((entry) -> getMappedClaim(entry, claimsMapping))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             log.debug("Updating user claims " + StringUtils.join(mappedClaims));
-            getUserStoreManager(tenantId).setUserClaimValues(userName, mappedClaims, null);
+            getUserStoreManager(tenantId).setUserClaimValuesWithID(userId, mappedClaims, null);
         }
     }
 
@@ -154,8 +154,9 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
                 claim.getValue().toString());
     }
 
-    private UserStoreManager getUserStoreManager(int tenantId) throws UserStoreException {
-        return EKYCServiceDataHolder.getInstance().getRealmService().getTenantUserRealm(tenantId).getUserStoreManager();
+    private AbstractUserStoreManager getUserStoreManager(int tenantId) throws UserStoreException {
+        return (AbstractUserStoreManager) EKYCServiceDataHolder.getInstance().getRealmService()
+                .getTenantUserRealm(tenantId).getUserStoreManager();
     }
 
 

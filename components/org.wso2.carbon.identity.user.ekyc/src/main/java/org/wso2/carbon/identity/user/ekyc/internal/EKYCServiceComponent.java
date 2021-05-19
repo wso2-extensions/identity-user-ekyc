@@ -21,10 +21,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.wso2.carbon.identity.configuration.mgt.core.ConfigurationManager;
 import org.wso2.carbon.identity.user.ekyc.UserEKYCConnector;
@@ -82,15 +80,6 @@ public class EKYCServiceComponent {
         log.debug("Unsetting the ConfigurationManager");
         dataHolder.setConfigurationManager(null);
     }
-
-
-    @Deactivate
-    protected void deactivate(ComponentContext context) {
-        if (log.isDebugEnabled()) {
-            log.debug("Identity account ekyc connector service component is deactivated ");
-        }
-    }
-
 
 }
 
