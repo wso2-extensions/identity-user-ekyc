@@ -24,7 +24,6 @@ import org.wso2.carbon.identity.user.ekyc.idv.IDVService;
 import org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceDataHolder;
 import org.wso2.carbon.user.core.UserRealm;
 import org.wso2.carbon.user.core.UserStoreException;
-import org.wso2.carbon.user.core.UserStoreManager;
 import org.wso2.carbon.user.core.common.AbstractUserStoreManager;
 import org.wso2.carbon.user.core.service.RealmService;
 
@@ -55,8 +54,8 @@ public class UserEKYCConnectorImplTest {
     private static final String TEST_USERNAME = "test-username";
     private static final int TEST_TENANT_ID = 1234;
     private static final String TEST_VC_STATUS = FINISHED;
-    private String TEST_VC_DATA;
-    private EKYCVerifiedCredentialDTO TEST_VC;
+    private String testVcData;
+    private EKYCVerifiedCredentialDTO testVc;
 
     private EKYCVerifiedCredentialDAO ekycVerifiedCredentialDAO;
     private EKYCServiceDataHolder ekycServiceDataHolder;
@@ -70,14 +69,14 @@ public class UserEKYCConnectorImplTest {
 
     @BeforeClass
     public void before() throws org.wso2.carbon.user.api.UserStoreException, ConfigurationManagementException,
-            IOException {
-        TEST_VC_DATA = getTestVc();
-        TEST_VC = new EKYCVerifiedCredentialDTO(
+            IOException, IDVException {
+        testVcData = getTestVc();
+        testVc = new EKYCVerifiedCredentialDTO(
                 TEST_SESSION_ID,
                 TEST_USER_ID,
                 TEST_TENANT_ID,
                 TEST_VC_STATUS,
-                TEST_VC_DATA);
+                testVcData);
 
         ekycVerifiedCredentialDAO = mock(EKYCVerifiedCredentialDAO.class);
         ekycServiceDataHolder = mock(EKYCServiceDataHolder.class);
@@ -89,7 +88,6 @@ public class UserEKYCConnectorImplTest {
         claimsCaptor = ArgumentCaptor.forClass(Map.class);
         vcCaptor = ArgumentCaptor.forClass(String.class);
 
-
         when(userStoreManager.isReadOnly()).thenReturn(false);
         when(userRealm.getUserStoreManager()).thenReturn(userStoreManager);
         when(realmService.getTenantUserRealm(TEST_TENANT_ID)).thenReturn(userRealm);
@@ -97,7 +95,6 @@ public class UserEKYCConnectorImplTest {
         when(configurationManager.getResource(EKYC_RESOURCE_TYPE, RESOURCE_NAME)).thenReturn(getEkycResource());
         when(ekycServiceDataHolder.getConfigurationManager()).thenReturn(configurationManager);
         when(ekycServiceDataHolder.getIdvService()).thenReturn(idvService);
-
 
         MockedStatic<EKYCServiceDataHolder> serviceMock = Mockito.mockStatic(EKYCServiceDataHolder.class);
         serviceMock.when(() -> EKYCServiceDataHolder.getInstance()).thenReturn(ekycServiceDataHolder);
@@ -110,11 +107,11 @@ public class UserEKYCConnectorImplTest {
     public void getPendingVerifiedCredential() throws UserEKYCException, IDVException,
             ConfigurationManagementException, UserStoreException, IOException {
         //BEFORE
-        TEST_VC.setStatus(PENDING);
+        testVc.setStatus(PENDING);
         when(ekycVerifiedCredentialDAO.getUserEKYCVC(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID))
-                .thenReturn(TEST_VC);
-        when(idvService.getSessionVc(TEST_USER_ID, TEST_SESSION_ID))
-                .thenReturn(new JsonParser().parse(TEST_VC_DATA).getAsJsonObject());
+                .thenReturn(testVc);
+        when(idvService.getSessionVerifiedCredential(TEST_USER_ID, TEST_SESSION_ID))
+                .thenReturn(new JsonParser().parse(testVcData).getAsJsonObject());
         //TEST
         UserEKYCConnectorImpl.getInstance().getPendingVerifiedCredential(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID);
         //ASSERT
@@ -132,9 +129,9 @@ public class UserEKYCConnectorImplTest {
     public void testUpdateUserClaimsFromVerifiedCredential() throws UserEKYCException, org.wso2.carbon.user.api
             .UserStoreException, ConfigurationManagementException {
         //BEFORE
-        TEST_VC.setStatus(FINISHED);
+        testVc.setStatus(FINISHED);
         when(ekycVerifiedCredentialDAO.getUserEKYCVC(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID))
-                .thenReturn(TEST_VC);
+                .thenReturn(testVc);
         //TEST
         UserEKYCConnectorImpl.getInstance()
                 .updateUserClaimsFromVerifiedCredential(TEST_SESSION_ID, TEST_USER_ID, TEST_TENANT_ID);

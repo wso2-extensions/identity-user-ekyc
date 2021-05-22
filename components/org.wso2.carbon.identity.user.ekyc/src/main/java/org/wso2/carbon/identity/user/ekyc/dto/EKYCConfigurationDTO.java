@@ -18,17 +18,19 @@
 
 package org.wso2.carbon.identity.user.ekyc.dto;
 
-
 import java.util.List;
 import java.util.Map;
 
+/**
+ * DTO for EKYC configuration
+ */
 public class EKYCConfigurationDTO {
     private String url;
     private String apiKey;
     private String apiSecret;
     private String callbackUrl;
     private List<String> services;
-    private Map<String,String> claimsMapping;
+    private Map<String, String> claimsMapping;
     private boolean skipTlsCheck;
 
     public EKYCConfigurationDTO() {
@@ -99,5 +101,19 @@ public class EKYCConfigurationDTO {
 
     public void setSkipTlsCheck(boolean skipTlsCheck) {
         this.skipTlsCheck = skipTlsCheck;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EKYCConfigurationDTO{");
+        sb.append("url='").append(url).append('\'');
+        sb.append(", apiKey='").append(apiKey).append('\'');
+        sb.append(", apiSecret='").append(apiSecret).append('\'');
+        sb.append(", callbackUrl='").append(callbackUrl).append('\'');
+        sb.append(", services=").append(services);
+        sb.append(", claimsMapping=").append(claimsMapping);
+        sb.append(", skipTlsCheck=").append(skipTlsCheck);
+        sb.append('}');
+        return sb.toString();
     }
 }

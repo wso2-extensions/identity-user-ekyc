@@ -15,12 +15,17 @@
  */
 
 package org.wso2.carbon.identity.user.ekyc.util;
-
+/**
+ * EKYC constants
+ */
 public class UserEKYCConstants {
 
-    private UserEKYCConstants(){
+    private UserEKYCConstants() {
     }
 
+    /**
+     * EKYC error messages
+     */
     public enum ErrorMessages {
 
         CONN_CREATE_DB_ERROR("EKYC-0001", "Database error occurred while connectiong to ekyc database"),
@@ -49,11 +54,25 @@ public class UserEKYCConstants {
 
     }
 
+    /**
+     * EKYC SQL Column names
+     */
+    public static class SQLColumnNames {
+        public static final String EKYC_VC_SESSION_ID = "SESSION_ID";
+        public static final String EKYC_VC_USER_ID = "USER_ID";
+        public static final String EKYC_VC_TENANT_ID = "SESSION_ID";
+        public static final String EKYC_VC_STATUS = "STATUS";
+        public static final String EKYC_VC_VC = "VC";
+    }
+
+    /**
+     * EKYC SQL Queries
+     */
     public static class SQLQueries {
 
         public static final String ADD_USER_EKYC_VC = "INSERT INTO IDN_USER_EKYC_VC " +
-                                                                  "(SESSION_ID, USER_ID, TENANT_ID, STATUS, VC)" +
-                                                                  " VALUES (?, ?, ?, ?, ?)";
+                "(SESSION_ID, USER_ID, TENANT_ID, STATUS, VC)" +
+                " VALUES (?, ?, ?, ?, ?)";
         public static final String GET_USER_EKYC_VCS = "SELECT SESSION_ID,STATUS, VC FROM IDN_USER_EKYC_VC " +
                 " WHERE USER_ID = ? AND TENANT_ID = ?";
 
@@ -67,6 +86,9 @@ public class UserEKYCConstants {
                 " SET VC = ?, STATUS = ? WHERE SESSION_ID = ? AND USER_ID = ? AND TENANT_ID = ?";
     }
 
+    /**
+     * EKYC Process Statuses
+     */
     public static class EKYCProccessStatuses {
         public static final String PENDING = "PENDING";
         public static final String FINISHED = "FINISHED";

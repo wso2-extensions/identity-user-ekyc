@@ -21,6 +21,9 @@ package org.wso2.carbon.identity.user.ekyc.exception;
 import org.wso2.carbon.identity.base.IdentityException;
 import org.wso2.carbon.identity.user.ekyc.util.UserEKYCConstants;
 
+/**
+ * Exception from EKYC module
+ */
 public class UserEKYCException extends IdentityException {
 
     private static final long serialVersionUID = 2217974372681551551L;

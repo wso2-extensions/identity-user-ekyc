@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.user.ekyc.dto;
 
+/**
+ * DTO for Verified Credential
+ */
 public class EKYCVerifiedCredentialDTO {
 
     private String sessionId;
@@ -87,12 +90,13 @@ public class EKYCVerifiedCredentialDTO {
 
     @Override
     public String toString() {
-        return "EKYCVerifiedCredentialDTO{" +
-                "sessionId='" + sessionId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", tenantId=" + tenantId +
-                ", status='" + status + '\'' +
-                ", verifiedCredential='" + verifiedCredential + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("EKYCVerifiedCredentialDTO{");
+        sb.append("sessionId='").append(sessionId).append('\'');
+        sb.append(", userId='").append(userId).append('\'');
+        sb.append(", tenantId=").append(tenantId);
+        sb.append(", status='").append(status).append('\'');
+        sb.append(", verifiedCredential='").append(verifiedCredential).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

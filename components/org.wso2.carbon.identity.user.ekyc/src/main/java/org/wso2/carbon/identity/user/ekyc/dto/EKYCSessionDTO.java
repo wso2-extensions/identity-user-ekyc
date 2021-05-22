@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.user.ekyc.dto;
 
+/**
+ * DTO for EKY Session
+ */
 public class EKYCSessionDTO {
     private String sessionId;
     private String redirectUrl;
@@ -48,9 +51,10 @@ public class EKYCSessionDTO {
 
     @Override
     public String toString() {
-        return "EKYCSessionDTO{" +
-                "sessionId='" + sessionId + '\'' +
-                ", redirectUrl='" + redirectUrl + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("EKYCSessionDTO{");
+        sb.append("sessionId='").append(sessionId).append('\'');
+        sb.append(", redirectUrl='").append(redirectUrl).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

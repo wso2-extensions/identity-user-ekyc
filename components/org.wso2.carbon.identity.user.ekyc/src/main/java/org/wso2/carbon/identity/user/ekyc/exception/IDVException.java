@@ -21,6 +21,9 @@ package org.wso2.carbon.identity.user.ekyc.exception;
 import org.wso2.carbon.identity.base.IdentityException;
 import org.wso2.carbon.identity.user.ekyc.util.IDVConstants;
 
+/**
+ * Exception from communication with IDV hub
+ */
 public class IDVException extends IdentityException {
 
     private static final long serialVersionUID = 2217974372681551551L;

@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.user.ekyc.dto;
 
+/**
+ * DTO for requesting verification of a claim
+ */
 public class EKYCVerifyClaimRequestDTO {
     private String sessionId;
     private String claim;
@@ -51,5 +54,15 @@ public class EKYCVerifyClaimRequestDTO {
 
     public void setClaimValue(String claimValue) {
         this.claimValue = claimValue;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EKYCVerifyClaimRequestDTO{");
+        sb.append("sessionId='").append(sessionId).append('\'');
+        sb.append(", claim='").append(claim).append('\'');
+        sb.append(", claimValue='").append(claimValue).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

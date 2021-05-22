@@ -20,6 +20,7 @@ package org.wso2.carbon.identity.user.ekyc;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,6 +49,9 @@ import static org.wso2.carbon.identity.user.ekyc.util.EKYCConfigurationMapper.bu
 import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.EKYC_RESOURCE_TYPE;
 import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.RESOURCE_NAME;
 
+/**
+ * EKYC connector implementation
+ */
 public class UserEKYCConnectorImpl implements UserEKYCConnector {
 
     private static final Log log = LogFactory.getLog(UserEKYCConnectorImpl.class);
@@ -56,14 +60,14 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     }
 
     private static class LazyHolder {
-        private static UserEKYCConnectorImpl INSTANCE = null;
+        private static UserEKYCConnectorImpl instance = null;
     }
 
     public static UserEKYCConnectorImpl getInstance() {
-        if (LazyHolder.INSTANCE == null) {
-            LazyHolder.INSTANCE = new UserEKYCConnectorImpl();
+        if (LazyHolder.instance == null) {
+            LazyHolder.instance = new UserEKYCConnectorImpl();
         }
-        return LazyHolder.INSTANCE;
+        return LazyHolder.instance;
     }
 
     @Override
@@ -76,7 +80,9 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
                 tenantId,
                 UserEKYCConstants.EKYCProccessStatuses.PENDING,
                 null);
-        log.debug("Generated session: " + ekycSessionDTO.toString());
+        if (log.isDebugEnabled()) {
+            log.debug("Generated session: " + ekycSessionDTO.toString());
+        }
         return ekycSessionDTO;
     }
 
@@ -85,7 +91,9 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
             UserEKYCException {
         List<EKYCVerifiedCredentialDTO> ekycVerifiedCredentialDTOs = EKYCVerifiedCredentialDAO
                 .getInstance().getUserEKYCVCs(userId, tenantId);
-        log.debug("User VCs " + Arrays.toString(ekycVerifiedCredentialDTOs.toArray()));
+        if (log.isDebugEnabled()) {
+            log.debug("User VCs " + Arrays.toString(ekycVerifiedCredentialDTOs.toArray()));
+        }
         return ekycVerifiedCredentialDTOs;
     }
 
@@ -93,7 +101,9 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
     public void deleteVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException {
         EKYCVerifiedCredentialDAO
                 .getInstance().deleteUserEKYCVC(sessionId, userId, tenantId);
-        log.debug("Deleted VC: " + sessionId);
+        if (log.isDebugEnabled()) {
+            log.debug("Deleted VC: " + sessionId);
+        }
     }
 
     @Override
@@ -102,7 +112,7 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
         EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO = EKYCVerifiedCredentialDAO
                 .getInstance().getUserEKYCVC(sessionId, userId, tenantId);
         if (ekycVerifiedCredentialDTO != null && isVerifiedCredentialPending(ekycVerifiedCredentialDTO)) {
-            JsonObject vc = getIdvService().getSessionVc(userId, sessionId);
+            JsonObject vc = getIdvService().getSessionVerifiedCredential(userId, sessionId);
             EKYCVerifiedCredentialDAO.getInstance()
                     .updateVerifiedCredential(sessionId, userId, tenantId,
                             vc.toString(), UserEKYCConstants.EKYCProccessStatuses.FINISHED);
@@ -124,12 +134,14 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
                     .filter((entry) -> claimsMapping.keySet().contains(entry.getKey()))
                     .map((entry) -> getMappedClaim(entry, claimsMapping))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            log.debug("Updating user claims " + StringUtils.join(mappedClaims));
+            if (log.isDebugEnabled()) {
+                log.debug("Updating user claims " + StringUtils.join(mappedClaims));
+            }
             getUserStoreManager(tenantId).setUserClaimValuesWithID(userId, mappedClaims, null);
         }
     }
 
-    private IDVService getIdvService() {
+    private IDVService getIdvService() throws IDVException {
         return EKYCServiceDataHolder.getInstance().getIdvService();
     }
 
@@ -141,7 +153,7 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
 
     private Map<String, String> getClaimsMapping() throws ConfigurationManagementException, UserEKYCException {
         Map<String, String> claimsMapping = getEKYCConfiguration().getClaimsMapping();
-        if (claimsMapping == null) {
+        if (MapUtils.isEmpty(claimsMapping)) {
             throw new UserEKYCException(UserEKYCConstants.ErrorMessages.CLAIMS_MAPPING_MISSING_ERROR);
         }
         return claimsMapping;
@@ -159,16 +171,15 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
                 .getTenantUserRealm(tenantId).getUserStoreManager();
     }
 
-
     private boolean isUpdatePossible(EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO, int tenantId) throws
             UserStoreException {
         return !getUserStoreManager(tenantId).isReadOnly() &&
                 ekycVerifiedCredentialDTO != null &&
-                ekycVerifiedCredentialDTO.getStatus().equals(UserEKYCConstants.EKYCProccessStatuses.FINISHED);
+                UserEKYCConstants.EKYCProccessStatuses.FINISHED.equals(ekycVerifiedCredentialDTO.getStatus());
     }
 
     private boolean isVerifiedCredentialPending(EKYCVerifiedCredentialDTO ekycVerifiedCredentialDTO) {
-        return ekycVerifiedCredentialDTO.getStatus().equals(UserEKYCConstants.EKYCProccessStatuses.PENDING);
+        return UserEKYCConstants.EKYCProccessStatuses.PENDING.equals(ekycVerifiedCredentialDTO.getStatus());
     }
 
     private EKYCConfigurationDTO getEKYCConfiguration() throws ConfigurationManagementException {
@@ -177,6 +188,4 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
                 .getResource(EKYC_RESOURCE_TYPE, RESOURCE_NAME);
         return buildEKYCConfigurationFromResource(resource);
     }
-
-
 }

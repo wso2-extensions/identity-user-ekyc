@@ -20,10 +20,14 @@ package org.wso2.carbon.identity.user.ekyc.internal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.configuration.mgt.core.ConfigurationManager;
+import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
 import org.wso2.carbon.identity.user.ekyc.idv.IDVService;
 import org.wso2.carbon.identity.user.ekyc.idv.IDVServiceImpl;
 import org.wso2.carbon.user.core.service.RealmService;
 
+/**
+ * Holder for osgi and local services
+ */
 public class EKYCServiceDataHolder {
     private RealmService realmService;
     private ConfigurationManager configurationManager;
@@ -62,8 +66,8 @@ public class EKYCServiceDataHolder {
         this.configurationManager = configurationManager;
     }
 
-    public IDVService getIdvService() {
-        if(idvService == null){
+    public IDVService getIdvService() throws IDVException {
+        if (idvService == null) {
             idvService = new IDVServiceImpl(configurationManager);
         }
         return idvService;

@@ -29,7 +29,9 @@ import org.wso2.carbon.identity.user.ekyc.UserEKYCConnector;
 import org.wso2.carbon.identity.user.ekyc.UserEKYCConnectorImpl;
 import org.wso2.carbon.user.core.service.RealmService;
 
-
+/**
+ * EKYC osgi component
+ */
 @Component(
         name = "org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceComponent",
         immediate = true)
@@ -61,23 +63,31 @@ public class EKYCServiceComponent {
 
     @Reference(service = RealmService.class)
     protected void setRealmService(RealmService realmService) {
-        log.debug("Setting the Realm Service");
+        if (log.isDebugEnabled()) {
+            log.debug("Setting the Realm Service");
+        }
         dataHolder.setRealmService(realmService);
     }
 
     protected void unsetRealmService(RealmService realmService) {
-        log.debug("Unsetting the Realm Service");
+        if (log.isDebugEnabled()) {
+            log.debug("Unsetting the Realm Service");
+        }
         dataHolder.setRealmService(null);
     }
 
     @Reference(service = ConfigurationManager.class)
     protected void setConfigurationManager(ConfigurationManager configurationManager) {
-        log.debug("Setting the ConfigurationManager");
+        if (log.isDebugEnabled()) {
+            log.debug("Setting the ConfigurationManager");
+        }
         dataHolder.setConfigurationManager(configurationManager);
     }
 
     protected void unsetConfigurationManager(ConfigurationManager configurationManager) {
-        log.debug("Unsetting the ConfigurationManager");
+        if (log.isDebugEnabled()) {
+            log.debug("Unsetting the ConfigurationManager");
+        }
         dataHolder.setConfigurationManager(null);
     }
 

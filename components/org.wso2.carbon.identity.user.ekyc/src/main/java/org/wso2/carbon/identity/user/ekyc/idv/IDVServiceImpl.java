@@ -28,7 +28,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.conn.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -37,7 +37,12 @@ import org.apache.http.util.EntityUtils;
 import org.wso2.carbon.identity.configuration.mgt.core.ConfigurationManager;
 import org.wso2.carbon.identity.configuration.mgt.core.exception.ConfigurationManagementException;
 import org.wso2.carbon.identity.configuration.mgt.core.model.Resource;
-import org.wso2.carbon.identity.user.ekyc.dto.*;
+import org.wso2.carbon.identity.user.ekyc.dto.EKYCConfigurationDTO;
+import org.wso2.carbon.identity.user.ekyc.dto.EKYCSessionDTO;
+import org.wso2.carbon.identity.user.ekyc.dto.EKYCSesssionRequestDTO;
+import org.wso2.carbon.identity.user.ekyc.dto.EKYCVCRequestDTO;
+import org.wso2.carbon.identity.user.ekyc.dto.EKYCVerifyClaimRequestDTO;
+import org.wso2.carbon.identity.user.ekyc.dto.EKYCVerifyClaimResponseDTO;
 import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
 import org.wso2.carbon.identity.user.ekyc.util.IDVConstants;
 
@@ -46,14 +51,15 @@ import java.io.UnsupportedEncodingException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.List;
 
 import static org.wso2.carbon.identity.user.ekyc.util.EKYCConfigurationMapper.buildEKYCConfigurationFromResource;
 import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.EKYC_RESOURCE_TYPE;
 import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.RESOURCE_NAME;
 
+/**
+ * IDV Service implementation
+ */
 public class IDVServiceImpl implements IDVService {
 
     private HttpClient httpClient;
@@ -61,13 +67,9 @@ public class IDVServiceImpl implements IDVService {
 
     private static final Log log = LogFactory.getLog(IDVServiceImpl.class);
 
-    public IDVServiceImpl(ConfigurationManager configurationManager) {
+    public IDVServiceImpl(ConfigurationManager configurationManager) throws IDVException {
         this.configurationManager = configurationManager;
-        try {
-            httpClient = newClient();
-        } catch (Exception e) {
-            log.error("IDV Http client creation error", e);
-        }
+        httpClient = newClient();
     }
 
     @Override
@@ -76,7 +78,7 @@ public class IDVServiceImpl implements IDVService {
         try {
             EKYCSesssionRequestDTO ekycSesssionRequest = new EKYCSesssionRequestDTO(service, claims,
                     getEKYCConfiguration()
-                    .getCallbackUrl());
+                            .getCallbackUrl());
             HttpPost request = getJsonPostRequest(IDVConstants.UrlPaths.GET_SESSION_PATH, ekycSesssionRequest);
             EKYCSessionDTO ekycSessionDTO = executeCall(request, EKYCSessionDTO.class);
             return ekycSessionDTO;
@@ -86,7 +88,7 @@ public class IDVServiceImpl implements IDVService {
     }
 
     @Override
-    public JsonObject getSessionVc(String userId, String sessionId) throws IDVException,
+    public JsonObject getSessionVerifiedCredential(String userId, String sessionId) throws IDVException,
             ConfigurationManagementException {
         try {
             EKYCVCRequestDTO ekycvcRequestDTO = new EKYCVCRequestDTO(userId, sessionId);
@@ -143,24 +145,22 @@ public class IDVServiceImpl implements IDVService {
         return buildEKYCConfigurationFromResource(resource);
     }
 
-
-    private HttpClient newClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException,
-            ConfigurationManagementException {
-        if (getEKYCConfiguration().isSkipTlsCheck()) {
-            CloseableHttpClient httpClient = HttpClients.custom().
-                    setHostnameVerifier(new AllowAllHostnameVerifier()).
-                    setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                        public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                            return true;
-                        }
-                    }).build()).build();
-            return httpClient;
-        } else {
-            return HttpClients.createDefault();
+    private HttpClient newClient() throws IDVException {
+        try {
+            if (getEKYCConfiguration().isSkipTlsCheck()) {
+                CloseableHttpClient httpClient = HttpClients.custom().
+                        setHostnameVerifier(new AllowAllHostnameVerifier()).
+                        setSslcontext(new SSLContextBuilder()
+                                .loadTrustMaterial(null, new TrustSelfSignedStrategy())
+                                .build()).build();
+                return httpClient;
+            } else {
+                return HttpClients.createDefault();
+            }
+        } catch (ConfigurationManagementException | NoSuchAlgorithmException | KeyManagementException |
+                KeyStoreException e) {
+            log.error("IDV Http client creation error", e);
+            throw new IDVException(IDVConstants.ErrorMessages.IDV_HTTP_CLIENT_INITIALIZATION_ERROR);
         }
     }
 }
-
-
-
-

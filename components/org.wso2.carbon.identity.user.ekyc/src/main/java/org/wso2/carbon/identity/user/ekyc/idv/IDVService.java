@@ -26,12 +26,44 @@ import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
 
 import java.util.List;
 
+/**
+ * Interface to connect to IDV hub
+ */
 public interface IDVService {
+    /**
+     * Methods triggers new EKYC session in IDV hub
+     *
+     * @param service Name of the service that should be used in IDV hub
+     * @param claims  List of claim names that IDV should gather
+     * @return
+     * @throws IDVException
+     * @throws ConfigurationManagementException
+     */
     EKYCSessionDTO generateNewSession(String service, List<String> claims)
             throws IDVException, ConfigurationManagementException;
 
-    JsonObject getSessionVc(String userId, String sessionId) throws IDVException, ConfigurationManagementException;
+    /**
+     * Method fetches Verified Credential from IDV Hub
+     *
+     * @param userId
+     * @param sessionId
+     * @return Verified Credential
+     * @throws IDVException
+     * @throws ConfigurationManagementException
+     */
+    JsonObject getSessionVerifiedCredential(String userId, String sessionId) throws IDVException,
+            ConfigurationManagementException;
 
+    /**
+     * Method requests the verification of single claim in Verified Credential in IDV hub
+     *
+     * @param sessionId
+     * @param claim
+     * @param value
+     * @return <code>EKYCVerifyClaimResponseDTO</code> which contains similarity value
+     * @throws IDVException
+     * @throws ConfigurationManagementException
+     */
     EKYCVerifyClaimResponseDTO getVerifyClaim(String sessionId, String claim, String value)
             throws IDVException, ConfigurationManagementException;
 }

@@ -20,10 +20,13 @@ package org.wso2.carbon.identity.user.ekyc.dto;
 
 import java.util.Map;
 
+/**
+ * DTO for Verified Credential Data
+ */
 public class EKYCVerifiedCredentialDataDTO {
 
-    private Map<String,Object> verification;
-    private Map<String,Object> claims;
+    private Map<String, Object> verification;
+    private Map<String, Object> claims;
 
     public EKYCVerifiedCredentialDataDTO() {
     }
@@ -47,5 +50,14 @@ public class EKYCVerifiedCredentialDataDTO {
 
     public void setClaims(Map<String, Object> claims) {
         this.claims = claims;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EKYCVerifiedCredentialDataDTO{");
+        sb.append("verification=").append(verification);
+        sb.append(", claims=").append(claims);
+        sb.append('}');
+        return sb.toString();
     }
 }

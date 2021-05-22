@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.user.ekyc.dto;
 
+/**
+ * DTO for requesting a Verified Credential
+ */
 public class EKYCVCRequestDTO {
     private String sub;
     private String sessionId;
@@ -41,5 +44,14 @@ public class EKYCVCRequestDTO {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EKYCVCRequestDTO{");
+        sb.append("sub='").append(sub).append('\'');
+        sb.append(", sessionId='").append(sessionId).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

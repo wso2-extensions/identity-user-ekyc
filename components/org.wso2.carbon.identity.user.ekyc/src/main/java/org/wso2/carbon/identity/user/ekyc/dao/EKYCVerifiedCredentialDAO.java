@@ -30,8 +30,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EKYC Verified Credential database DAO
+ */
 public class EKYCVerifiedCredentialDAO {
-
 
     public static EKYCVerifiedCredentialDAO getInstance() {
         return LazyHolder.INSTANCE;
@@ -71,9 +73,9 @@ public class EKYCVerifiedCredentialDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 while (resultSet.next()) {
-                    String sessionId = resultSet.getString(1);
-                    String status = resultSet.getString(2);
-                    String vc = resultSet.getString(3);
+                    String sessionId = resultSet.getString(UserEKYCConstants.SQLColumnNames.EKYC_VC_SESSION_ID);
+                    String status = resultSet.getString(UserEKYCConstants.SQLColumnNames.EKYC_VC_STATUS);
+                    String vc = resultSet.getString(UserEKYCConstants.SQLColumnNames.EKYC_VC_VC);
 
                     EKYCVerifiedCredentialDTO ekycVerifiedVCredentialDTO = new EKYCVerifiedCredentialDTO(
                             sessionId,
@@ -105,8 +107,8 @@ public class EKYCVerifiedCredentialDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.first()) {
-                    String status = resultSet.getString(1);
-                    String vc = resultSet.getString(2);
+                    String status = resultSet.getString(UserEKYCConstants.SQLColumnNames.EKYC_VC_STATUS);
+                    String vc = resultSet.getString(UserEKYCConstants.SQLColumnNames.EKYC_VC_VC);
 
                     ekycVerifiedVCredentialDTO = new EKYCVerifiedCredentialDTO(
                             sessionId,
@@ -166,9 +168,7 @@ public class EKYCVerifiedCredentialDAO {
         }
     }
 
-
     private static class LazyHolder {
         private static final EKYCVerifiedCredentialDAO INSTANCE = new EKYCVerifiedCredentialDAO();
     }
-
 }

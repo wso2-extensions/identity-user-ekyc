@@ -18,6 +18,9 @@
 
 package org.wso2.carbon.identity.user.ekyc.dto;
 
+/**
+ * DTO for response of claim verification
+ */
 public class EKYCVerifyClaimResponseDTO {
     private String vcValue;
     private String claimValue;
@@ -51,5 +54,15 @@ public class EKYCVerifyClaimResponseDTO {
 
     public void setSimilarity(Double similarity) {
         this.similarity = similarity;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EKYCVerifyClaimResponseDTO{");
+        sb.append("vcValue='").append(vcValue).append('\'');
+        sb.append(", claimValue='").append(claimValue).append('\'');
+        sb.append(", similarity=").append(similarity);
+        sb.append('}');
+        return sb.toString();
     }
 }

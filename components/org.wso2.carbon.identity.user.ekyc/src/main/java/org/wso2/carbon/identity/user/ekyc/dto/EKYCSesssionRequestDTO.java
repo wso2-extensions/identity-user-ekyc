@@ -20,6 +20,9 @@ package org.wso2.carbon.identity.user.ekyc.dto;
 
 import java.util.List;
 
+/**
+ * DTO for requesting a new EKYC session
+ */
 public class EKYCSesssionRequestDTO {
     private String service;
     private String callbackUrl;
@@ -53,5 +56,15 @@ public class EKYCSesssionRequestDTO {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EKYCSesssionRequestDTO{");
+        sb.append("service='").append(service).append('\'');
+        sb.append(", callbackUrl='").append(callbackUrl).append('\'');
+        sb.append(", claims=").append(claims);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -16,6 +16,9 @@
 
 package org.wso2.carbon.identity.user.ekyc.util;
 
+/**
+ * Constants for IDV
+ */
 public class IDVConstants {
 
     public static final String EKYC_RESOURCE_TYPE = "EKYC_CONFIGURATION";
@@ -29,9 +32,13 @@ public class IDVConstants {
     public static final String CONFIG_CLAIMS_MAPPING = "claimsMapping";
     public static final String CONFIG_SKIP_TLS_CHECK = "skipTlsCheck";
 
+    /**
+     * IDV error messages
+     */
     public enum ErrorMessages {
         IDV_CONNECTION_ERROR("EKYC-1001", "Error while connecting to idv"),
-        IDV_CONNECTION_RESPONSE_CODE_NOT_OK("EKYC-1002", "IDV response was not ok");
+        IDV_CONNECTION_RESPONSE_CODE_NOT_OK("EKYC-1002", "IDV response was not ok"),
+        IDV_HTTP_CLIENT_INITIALIZATION_ERROR("EKYC-1003", "Error when initializing Http Client");
 
         private final String code;
         private final String description;
@@ -56,6 +63,9 @@ public class IDVConstants {
 
     }
 
+    /**
+     * Url paths for IDV hub
+     */
     public static class UrlPaths {
         public static final String GET_SESSION_PATH = "/api/v1/session";
         public static final String POST_VC_PATH = "/api/v1/idp/vc";

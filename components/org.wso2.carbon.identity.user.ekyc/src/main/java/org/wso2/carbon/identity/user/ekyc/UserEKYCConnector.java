@@ -27,7 +27,9 @@ import org.wso2.carbon.user.api.UserStoreException;
 
 import java.util.List;
 
-
+/**
+ * EKYC connector
+ */
 public interface UserEKYCConnector {
 
     /**

@@ -29,10 +29,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.*;
-
+/**
+ * Class is used to map EKYCConfiguration to Resource and vice versa
+ */
 public class EKYCConfigurationMapper {
 
+    /**
+     * Method converts resource to <code>EKYCConfigurationDTO</code> object
+     *
+     * @param resource
+     * @return <code>EKYCConfigurationDTO</code>
+     */
     public static EKYCConfigurationDTO buildEKYCConfigurationFromResource(Resource resource) {
         EKYCConfigurationDTO ekycConfiguration = new EKYCConfigurationDTO();
         Map<String, String> attributesMap =
@@ -40,25 +47,25 @@ public class EKYCConfigurationMapper {
                         .collect(Collectors.toMap(Attribute::getKey, Attribute::getValue));
         attributesMap.entrySet().forEach(attribute -> {
             switch (attribute.getKey()) {
-                case CONFIG_URL:
+                case IDVConstants.CONFIG_URL:
                     ekycConfiguration.setUrl(attribute.getValue());
                     break;
-                case CONFIG_API_KEY:
+                case IDVConstants.CONFIG_API_KEY:
                     ekycConfiguration.setApiKey(attribute.getValue());
                     break;
-                case CONFIG_API_SECRET:
+                case IDVConstants.CONFIG_API_SECRET:
                     ekycConfiguration.setApiSecret(attribute.getValue());
                     break;
-                case CONFIG_SERVICES:
+                case IDVConstants.CONFIG_SERVICES:
                     ekycConfiguration.setServices(Arrays.asList(attribute.getValue().split(",")));
                     break;
-                case CONFIG_CALLBACK_URL:
+                case IDVConstants.CONFIG_CALLBACK_URL:
                     ekycConfiguration.setCallbackUrl(attribute.getValue());
                     break;
-                case CONFIG_CLAIMS_MAPPING:
-                    ekycConfiguration.setClaimsMapping(new Gson().fromJson(attribute.getValue(),Map.class));
+                case IDVConstants.CONFIG_CLAIMS_MAPPING:
+                    ekycConfiguration.setClaimsMapping(new Gson().fromJson(attribute.getValue(), Map.class));
                     break;
-                case CONFIG_SKIP_TLS_CHECK:
+                case IDVConstants.CONFIG_SKIP_TLS_CHECK:
                     ekycConfiguration.setSkipTlsCheck(Boolean.valueOf(attribute.getValue()));
                     break;
             }
@@ -66,17 +73,26 @@ public class EKYCConfigurationMapper {
         return ekycConfiguration;
     }
 
+    /**
+     * Method converts <code>EKYCConfigurationDTO</code> to the Resource
+     *
+     * @param ekycConfiguration
+     * @return <code>Resource</code>
+     */
     public static Resource buildResourceEKYCConfigurationDTO(EKYCConfigurationDTO ekycConfiguration) {
         Resource resource = new Resource();
-        resource.setResourceName(RESOURCE_NAME);
+        resource.setResourceName(IDVConstants.RESOURCE_NAME);
         Map<String, String> ekycConfigurationAttributes = new HashMap<>();
-        ekycConfigurationAttributes.put(CONFIG_URL, ekycConfiguration.getUrl());
-        ekycConfigurationAttributes.put(CONFIG_API_KEY, ekycConfiguration.getApiKey());
-        ekycConfigurationAttributes.put(CONFIG_API_SECRET, ekycConfiguration.getApiSecret());
-        ekycConfigurationAttributes.put(CONFIG_CALLBACK_URL, ekycConfiguration.getCallbackUrl());
-        ekycConfigurationAttributes.put(CONFIG_SERVICES, String.join(",",ekycConfiguration.getServices()));
-        ekycConfigurationAttributes.put(CONFIG_CLAIMS_MAPPING, new Gson().toJson(ekycConfiguration.getClaimsMapping()));
-        ekycConfigurationAttributes.put(CONFIG_SKIP_TLS_CHECK, Boolean.toString(ekycConfiguration.isSkipTlsCheck()));
+        ekycConfigurationAttributes.put(IDVConstants.CONFIG_URL, ekycConfiguration.getUrl());
+        ekycConfigurationAttributes.put(IDVConstants.CONFIG_API_KEY, ekycConfiguration.getApiKey());
+        ekycConfigurationAttributes.put(IDVConstants.CONFIG_API_SECRET, ekycConfiguration.getApiSecret());
+        ekycConfigurationAttributes.put(IDVConstants.CONFIG_CALLBACK_URL, ekycConfiguration.getCallbackUrl());
+        ekycConfigurationAttributes
+                .put(IDVConstants.CONFIG_SERVICES, String.join(",", ekycConfiguration.getServices()));
+        ekycConfigurationAttributes
+                .put(IDVConstants.CONFIG_CLAIMS_MAPPING, new Gson().toJson(ekycConfiguration.getClaimsMapping()));
+        ekycConfigurationAttributes
+                .put(IDVConstants.CONFIG_SKIP_TLS_CHECK, Boolean.toString(ekycConfiguration.isSkipTlsCheck()));
 
         List<Attribute> resourceAttributes =
                 ekycConfigurationAttributes.entrySet().stream()

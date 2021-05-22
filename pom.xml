@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.wso2</groupId>
         <artifactId>wso2</artifactId>
-        <version>1.2</version>
+        <version>5.1</version>
     </parent>
 
     <groupId>org.wso2.carbon.identity.ekyc</groupId>
@@ -30,9 +30,6 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>WSO2 Carbon User eKyc Module</name>
-    <description>
-
-    </description>
     <url>http://wso2.org</url>
 
     <scm>
@@ -47,7 +44,7 @@
         <repository>
             <id>wso2-nexus</id>
             <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -58,7 +55,7 @@
         <repository>
             <id>wso2.releases</id>
             <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+            <url>https://maven.wso2.org/nexus/content/repositories/releases/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -69,7 +66,7 @@
         <repository>
             <id>wso2.snapshots</id>
             <name>Apache Snapshot Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+            <url>https://maven.wso2.org/nexus/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -85,7 +82,7 @@
         <pluginRepository>
             <id>wso2.releases</id>
             <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+            <url>https://maven.wso2.org/nexus/content/repositories/releases/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -96,7 +93,7 @@
         <pluginRepository>
             <id>wso2.snapshots</id>
             <name>WSO2 Snapshot Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+            <url>https://maven.wso2.org/nexus/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -108,7 +105,7 @@
         <pluginRepository>
             <id>wso2-nexus</id>
             <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -247,6 +244,10 @@
                         <doUpdate>false</doUpdate>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -333,14 +334,16 @@
         <httpcore.wso2.version>4.3.3.wso2v1</httpcore.wso2.version>
         <carbon.kernel.core.version>5.2.13</carbon.kernel.core.version>
         <carbon.kernel.version>4.6.2</carbon.kernel.version>
-        <carbon.identity.framework.version>5.19.20</carbon.identity.framework.version>
+        <carbon.identity.framework.version>5.20.60</carbon.identity.framework.version>
         <identity.inbound.auth.oauth.version>6.2.28</identity.inbound.auth.oauth.version>
         <carbon.commons.version>4.7.11</carbon.commons.version>
         <commons-lang.wso2.version>2.6.0.wso2v1</commons-lang.wso2.version>
         <maven.buildnumber.plugin.version>1.4</maven.buildnumber.plugin.version>
         <httpcomponents-httpclient.wso2.version>4.3.6.wso2v2</httpcomponents-httpclient.wso2.version>
+        <maven.findbugsplugin.version>3.0.5</maven.findbugsplugin.version>
         <mockito-inline.version>3.8.0</mockito-inline.version>
         <mockito-testng>0.3.0</mockito-testng>
+        <mavan.findbugsplugin.exclude.file>findbugs-exclude-filter.xml</mavan.findbugsplugin.exclude.file>
     </properties>
 
     <modules>
