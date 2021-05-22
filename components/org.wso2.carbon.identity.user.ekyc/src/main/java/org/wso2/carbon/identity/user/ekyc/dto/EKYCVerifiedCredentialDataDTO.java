@@ -61,3 +61,4 @@ public class EKYCVerifiedCredentialDataDTO {
         return sb.toString();
     }
 }
+

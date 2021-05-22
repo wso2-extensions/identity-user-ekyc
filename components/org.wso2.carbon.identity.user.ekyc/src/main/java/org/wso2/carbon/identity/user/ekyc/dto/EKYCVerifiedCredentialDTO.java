@@ -100,3 +100,4 @@ public class EKYCVerifiedCredentialDTO {
         return sb.toString();
     }
 }
+

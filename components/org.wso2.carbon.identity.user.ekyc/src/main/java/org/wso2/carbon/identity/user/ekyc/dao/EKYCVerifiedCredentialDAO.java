@@ -172,3 +172,4 @@ public class EKYCVerifiedCredentialDAO {
         private static final EKYCVerifiedCredentialDAO INSTANCE = new EKYCVerifiedCredentialDAO();
     }
 }
+

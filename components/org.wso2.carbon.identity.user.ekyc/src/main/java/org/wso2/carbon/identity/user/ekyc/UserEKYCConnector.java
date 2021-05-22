@@ -37,8 +37,8 @@ public interface UserEKYCConnector {
      *
      * @param userId
      * @param tenantId
-     * @param service Name of the service that shoudl be used in IDV, optional
-     * @param claims List of claims that should be returned in Verified Credential
+     * @param service  Name of the service that shoudl be used in IDV, optional
+     * @param claims   List of claims that should be returned in Verified Credential
      * @return <code>EKYCSessionDTO</code> with new session and redirect Url to initiate EKC process
      * @throws UserEKYCException
      * @throws IDVException
@@ -69,6 +69,7 @@ public interface UserEKYCConnector {
 
     /**
      * Fetch update of Verified Credential from IDV hub and save it in db
+     *
      * @param sessionId
      * @param userId
      * @param tenantId
@@ -93,3 +94,4 @@ public interface UserEKYCConnector {
     void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, int tenantId)
             throws UserEKYCException, UserStoreException, ConfigurationManagementException;
 }
+

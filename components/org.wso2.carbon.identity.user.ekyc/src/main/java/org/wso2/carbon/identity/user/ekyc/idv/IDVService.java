@@ -67,3 +67,4 @@ public interface IDVService {
     EKYCVerifyClaimResponseDTO getVerifyClaim(String sessionId, String claim, String value)
             throws IDVException, ConfigurationManagementException;
 }
+

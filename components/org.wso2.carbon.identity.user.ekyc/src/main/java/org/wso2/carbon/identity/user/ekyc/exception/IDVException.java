@@ -51,3 +51,4 @@ public class IDVException extends IdentityException {
         super(error.getCode(), error.getDescription());
     }
 }
+

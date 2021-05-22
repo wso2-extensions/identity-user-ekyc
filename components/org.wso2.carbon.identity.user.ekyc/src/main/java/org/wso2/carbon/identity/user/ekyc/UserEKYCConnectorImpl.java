@@ -189,3 +189,4 @@ public class UserEKYCConnectorImpl implements UserEKYCConnector {
         return buildEKYCConfigurationFromResource(resource);
     }
 }
+

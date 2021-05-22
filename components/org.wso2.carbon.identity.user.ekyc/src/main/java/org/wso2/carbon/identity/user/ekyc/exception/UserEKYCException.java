@@ -48,3 +48,4 @@ public class UserEKYCException extends IdentityException {
         super(error.getCode(), error.getDescription());
     }
 }
+
