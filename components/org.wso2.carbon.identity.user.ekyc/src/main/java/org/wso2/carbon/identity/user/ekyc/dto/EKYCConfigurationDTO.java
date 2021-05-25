@@ -33,12 +33,15 @@ public class EKYCConfigurationDTO {
     private Map<String, String> claimsMapping;
     private boolean skipTlsCheck;
     private int connectionTimeout = -1;
+    private int connectionRequestTimeout = -1;
+    private int socketTimeout = -1;
 
     public EKYCConfigurationDTO() {
     }
 
     public EKYCConfigurationDTO(String url, String apiKey, String apiSecret, String callbackUrl, List<String>
-            services, Map<String, String> claimsMapping, boolean skipTlsCheck, int connectionTimeout) {
+            services, Map<String, String> claimsMapping, boolean skipTlsCheck, int connectionTimeout, int
+            connectionRequestTimeout, int socketTimeout) {
         this.url = url;
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
@@ -47,6 +50,8 @@ public class EKYCConfigurationDTO {
         this.claimsMapping = claimsMapping;
         this.skipTlsCheck = skipTlsCheck;
         this.connectionTimeout = connectionTimeout;
+        this.connectionRequestTimeout = connectionRequestTimeout;
+        this.socketTimeout = socketTimeout;
     }
 
     public String getUrl() {
@@ -113,6 +118,22 @@ public class EKYCConfigurationDTO {
         this.connectionTimeout = connectionTimeout;
     }
 
+    public int getConnectionRequestTimeout() {
+        return connectionRequestTimeout;
+    }
+
+    public void setConnectionRequestTimeout(int connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
+    }
+
+    public int getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public void setSocketTimeout(int socketTimeout) {
+        this.socketTimeout = socketTimeout;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("EKYCConfigurationDTO{");
@@ -124,6 +145,8 @@ public class EKYCConfigurationDTO {
         sb.append(", claimsMapping=").append(claimsMapping);
         sb.append(", skipTlsCheck=").append(skipTlsCheck);
         sb.append(", connectionTimeout=").append(connectionTimeout);
+        sb.append(", connectionRequestTimeout=").append(connectionRequestTimeout);
+        sb.append(", socketTimeout=").append(socketTimeout);
         sb.append('}');
         return sb.toString();
     }

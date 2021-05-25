@@ -151,7 +151,8 @@ public class IDVServiceImpl implements IDVService {
         try {
             RequestConfig.Builder requestBuilder = RequestConfig.custom();
             requestBuilder.setConnectTimeout(getEKYCConfiguration().getConnectionTimeout());
-            requestBuilder.setConnectionRequestTimeout(getEKYCConfiguration().getConnectionTimeout());
+            requestBuilder.setConnectionRequestTimeout(getEKYCConfiguration().getConnectionRequestTimeout());
+            requestBuilder.setSocketTimeout(getEKYCConfiguration().getSocketTimeout());
 
             if (getEKYCConfiguration().isSkipTlsCheck()) {
                 CloseableHttpClient httpClient = HttpClients.custom()
