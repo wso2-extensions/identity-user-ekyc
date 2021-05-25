@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.conn.ssl.SSLContextBuilder;
@@ -44,6 +45,7 @@ import org.wso2.carbon.identity.user.ekyc.dto.EKYCVCRequestDTO;
 import org.wso2.carbon.identity.user.ekyc.dto.EKYCVerifyClaimRequestDTO;
 import org.wso2.carbon.identity.user.ekyc.dto.EKYCVerifyClaimResponseDTO;
 import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
+import org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceDataHolder;
 import org.wso2.carbon.identity.user.ekyc.util.IDVConstants;
 
 import java.io.IOException;
@@ -67,8 +69,8 @@ public class IDVServiceImpl implements IDVService {
 
     private static final Log log = LogFactory.getLog(IDVServiceImpl.class);
 
-    public IDVServiceImpl(ConfigurationManager configurationManager) throws IDVException {
-        this.configurationManager = configurationManager;
+    public IDVServiceImpl() throws IDVException {
+        this.configurationManager = EKYCServiceDataHolder.getInstance().getConfigurationManager();
         httpClient = newClient();
     }
 
@@ -147,15 +149,22 @@ public class IDVServiceImpl implements IDVService {
 
     private HttpClient newClient() throws IDVException {
         try {
+            RequestConfig.Builder requestBuilder = RequestConfig.custom();
+            requestBuilder.setConnectTimeout(getEKYCConfiguration().getConnectionTimeout());
+            requestBuilder.setConnectionRequestTimeout(getEKYCConfiguration().getConnectionTimeout());
+
             if (getEKYCConfiguration().isSkipTlsCheck()) {
-                CloseableHttpClient httpClient = HttpClients.custom().
-                        setHostnameVerifier(new AllowAllHostnameVerifier()).
-                        setSslcontext(new SSLContextBuilder()
+                CloseableHttpClient httpClient = HttpClients.custom()
+                        .setDefaultRequestConfig(requestBuilder.build())
+                        .setHostnameVerifier(new AllowAllHostnameVerifier())
+                        .setSslcontext(new SSLContextBuilder()
                                 .loadTrustMaterial(null, new TrustSelfSignedStrategy())
                                 .build()).build();
                 return httpClient;
             } else {
-                return HttpClients.createDefault();
+                return HttpClients.custom()
+                        .setDefaultRequestConfig(requestBuilder.build())
+                        .build();
             }
         } catch (ConfigurationManagementException | NoSuchAlgorithmException | KeyManagementException |
                 KeyStoreException e) {

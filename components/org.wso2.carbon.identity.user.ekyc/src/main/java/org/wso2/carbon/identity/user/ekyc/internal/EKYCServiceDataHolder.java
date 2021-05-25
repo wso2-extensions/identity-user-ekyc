@@ -68,7 +68,7 @@ public class EKYCServiceDataHolder {
 
     public IDVService getIdvService() throws IDVException {
         if (idvService == null) {
-            idvService = new IDVServiceImpl(configurationManager);
+            idvService = new IDVServiceImpl();
         }
         return idvService;
     }

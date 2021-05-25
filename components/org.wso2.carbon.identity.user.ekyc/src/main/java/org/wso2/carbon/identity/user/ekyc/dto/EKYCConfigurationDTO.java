@@ -32,12 +32,13 @@ public class EKYCConfigurationDTO {
     private List<String> services;
     private Map<String, String> claimsMapping;
     private boolean skipTlsCheck;
+    private int connectionTimeout = -1;
 
     public EKYCConfigurationDTO() {
     }
 
-    public EKYCConfigurationDTO(String url, String apiKey, String apiSecret, String callbackUrl, List<String> services,
-                                Map<String, String> claimsMapping, boolean skipTlsCheck) {
+    public EKYCConfigurationDTO(String url, String apiKey, String apiSecret, String callbackUrl, List<String>
+            services, Map<String, String> claimsMapping, boolean skipTlsCheck, int connectionTimeout) {
         this.url = url;
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
@@ -45,6 +46,7 @@ public class EKYCConfigurationDTO {
         this.services = services;
         this.claimsMapping = claimsMapping;
         this.skipTlsCheck = skipTlsCheck;
+        this.connectionTimeout = connectionTimeout;
     }
 
     public String getUrl() {
@@ -103,6 +105,14 @@ public class EKYCConfigurationDTO {
         this.skipTlsCheck = skipTlsCheck;
     }
 
+    public int getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("EKYCConfigurationDTO{");
@@ -113,6 +123,7 @@ public class EKYCConfigurationDTO {
         sb.append(", services=").append(services);
         sb.append(", claimsMapping=").append(claimsMapping);
         sb.append(", skipTlsCheck=").append(skipTlsCheck);
+        sb.append(", connectionTimeout=").append(connectionTimeout);
         sb.append('}');
         return sb.toString();
     }
