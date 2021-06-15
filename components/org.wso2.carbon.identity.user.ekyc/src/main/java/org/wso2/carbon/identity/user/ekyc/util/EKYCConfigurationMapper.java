@@ -37,7 +37,7 @@ public class EKYCConfigurationMapper {
     /**
      * Method converts resource to <code>EKYCConfigurationDTO</code> object
      *
-     * @param resource
+     * @param resource EKYC configuration resource
      * @return <code>EKYCConfigurationDTO</code>
      */
     public static EKYCConfigurationDTO buildEKYCConfigurationFromResource(Resource resource) {
@@ -76,7 +76,7 @@ public class EKYCConfigurationMapper {
     /**
      * Method converts <code>EKYCConfigurationDTO</code> to the Resource
      *
-     * @param ekycConfiguration
+     * @param ekycConfiguration EKYC configuration
      * @return <code>Resource</code>
      */
     public static Resource buildResourceEKYCConfigurationDTO(EKYCConfigurationDTO ekycConfiguration) {
