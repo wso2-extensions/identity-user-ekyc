@@ -21,7 +21,7 @@ package org.wso2.carbon.identity.user.ekyc.dto;
 import java.util.List;
 
 /**
- * DTO for requesting a new EKYC session
+ * DTO for requesting a new EKYC session.
  */
 public class EKYCSesssionRequestDTO {
     private String service;

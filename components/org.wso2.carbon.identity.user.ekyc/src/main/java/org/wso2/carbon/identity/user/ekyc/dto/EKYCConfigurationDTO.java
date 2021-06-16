@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DTO for EKYC configuration
+ * DTO for EKYC configuration.
  */
 public class EKYCConfigurationDTO {
     private String url;

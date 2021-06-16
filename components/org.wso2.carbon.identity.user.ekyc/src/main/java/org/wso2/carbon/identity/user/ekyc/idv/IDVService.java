@@ -27,11 +27,11 @@ import org.wso2.carbon.identity.user.ekyc.exception.IDVException;
 import java.util.List;
 
 /**
- * Interface to connect to IDV hub
+ * Interface to connect to IDV hub.
  */
 public interface IDVService {
     /**
-     * Methods triggers new EKYC session in IDV hub
+     * Methods triggers new EKYC session in IDV hub.
      *
      * @param service Name of the service that should be used in IDV hub
      * @param claims  List of claim names that IDV should gather
@@ -43,7 +43,7 @@ public interface IDVService {
             throws IDVException, ConfigurationManagementException;
 
     /**
-     * Method fetches Verified Credential from IDV Hub
+     * Method fetches Verified Credential from IDV Hub.
      *
      * @param userId user Id
      * @param sessionId session Id
@@ -55,7 +55,7 @@ public interface IDVService {
             ConfigurationManagementException;
 
     /**
-     * Method requests the verification of single claim in Verified Credential in IDV hub
+     * Method requests the verification of single claim in Verified Credential in IDV hub.
      *
      * @param sessionId session Id
      * @param claim claim

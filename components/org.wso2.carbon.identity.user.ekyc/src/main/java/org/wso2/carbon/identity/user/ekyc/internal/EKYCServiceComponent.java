@@ -30,7 +30,7 @@ import org.wso2.carbon.identity.user.ekyc.UserEKYCConnectorImpl;
 import org.wso2.carbon.user.core.service.RealmService;
 
 /**
- * EKYC osgi component
+ * EKYC osgi component.
  */
 @Component(
         name = "org.wso2.carbon.identity.user.ekyc.internal.EKYCServiceComponent",

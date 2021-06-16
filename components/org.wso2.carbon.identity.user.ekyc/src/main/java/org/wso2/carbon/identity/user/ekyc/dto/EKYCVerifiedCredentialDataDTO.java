@@ -21,7 +21,7 @@ package org.wso2.carbon.identity.user.ekyc.dto;
 import java.util.Map;
 
 /**
- * DTO for Verified Credential Data
+ * DTO for Verified Credential Data.
  */
 public class EKYCVerifiedCredentialDataDTO {
 

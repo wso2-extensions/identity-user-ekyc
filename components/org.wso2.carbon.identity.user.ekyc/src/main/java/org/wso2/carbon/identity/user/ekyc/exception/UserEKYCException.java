@@ -22,7 +22,7 @@ import org.wso2.carbon.identity.base.IdentityException;
 import org.wso2.carbon.identity.user.ekyc.util.UserEKYCConstants;
 
 /**
- * Exception from EKYC module
+ * Exception from EKYC module.
  */
 public class UserEKYCException extends IdentityException {
 

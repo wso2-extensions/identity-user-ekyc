@@ -19,7 +19,7 @@
 package org.wso2.carbon.identity.user.ekyc.dto;
 
 /**
- * DTO for Verified Credential
+ * DTO for Verified Credential.
  */
 public class EKYCVerifiedCredentialDTO {
 

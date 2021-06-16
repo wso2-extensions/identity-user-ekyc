@@ -17,7 +17,7 @@
 package org.wso2.carbon.identity.user.ekyc.util;
 
 /**
- * Constants for IDV
+ * Constants for IDV.
  */
 public class IDVConstants {
 
@@ -33,7 +33,7 @@ public class IDVConstants {
     public static final String CONFIG_SKIP_TLS_CHECK = "skipTlsCheck";
 
     /**
-     * IDV error messages
+     * IDV error messages.
      */
     public enum ErrorMessages {
         IDV_CONNECTION_ERROR("EKYC-1001", "Error while connecting to idv"),
@@ -64,7 +64,7 @@ public class IDVConstants {
     }
 
     /**
-     * Url paths for IDV hub
+     * Url paths for IDV hub.
      */
     public static class UrlPaths {
         public static final String GET_SESSION_PATH = "/api/v1/session";

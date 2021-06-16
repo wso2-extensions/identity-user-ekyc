@@ -60,7 +60,7 @@ import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.EKYC_RESOURCE
 import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.RESOURCE_NAME;
 
 /**
- * IDV Service implementation
+ * IDV Service implementation.
  */
 public class IDVServiceImpl implements IDVService {
 

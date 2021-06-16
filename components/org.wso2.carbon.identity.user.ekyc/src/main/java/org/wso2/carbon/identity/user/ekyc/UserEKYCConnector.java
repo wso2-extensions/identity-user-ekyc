@@ -28,12 +28,12 @@ import org.wso2.carbon.user.api.UserStoreException;
 import java.util.List;
 
 /**
- * EKYC connector
+ * EKYC connector.
  */
 public interface UserEKYCConnector {
 
     /**
-     * Generate new EKYC session
+     * Generate new EKYC session.
      *
      * @param userId userId
      * @param tenantId
@@ -48,17 +48,17 @@ public interface UserEKYCConnector {
             UserEKYCException, IDVException, ConfigurationManagementException;
 
     /**
-     * Get all verified credentials of user
+     * Get all verified credentials of user.
      *
      * @param userId user Id
      * @param tenantId tenant Id
-     * @return <code>List&lt;EKYCVerifiedCredentialDTO&gt;List of Verified Credentials
+     * @return <code>List&lt;EKYCVerifiedCredentialDTO&gt;</code>List of Verified Credentials
      * @throws UserEKYCException Exception caused by EKYC processing
      */
     List<EKYCVerifiedCredentialDTO> getVerifiedCredentials(String userId, int tenantId) throws UserEKYCException;
 
     /**
-     * Delete Verified Credential
+     * Delete Verified Credential.
      *
      * @param sessionId session Id
      * @param userId user Id
@@ -68,7 +68,7 @@ public interface UserEKYCConnector {
     void deleteVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException;
 
     /**
-     * Fetch update of Verified Credential from IDV hub and save it in db
+     * Fetch update of Verified Credential from IDV hub and save it in db.
      *
      * @param sessionId session Id
      * @param userId user Id
@@ -82,7 +82,7 @@ public interface UserEKYCConnector {
             UserEKYCException, IDVException, ConfigurationManagementException;
 
     /**
-     * Update user claims from Verified Claims based on IDV configuration mapping
+     * Update user claims from Verified Claims based on IDV configuration mapping.
      *
      * @param sessionId session Id
      * @param userId user Id

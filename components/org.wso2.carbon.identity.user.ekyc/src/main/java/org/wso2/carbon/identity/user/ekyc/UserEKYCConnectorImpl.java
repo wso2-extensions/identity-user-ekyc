@@ -50,7 +50,7 @@ import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.EKYC_RESOURCE
 import static org.wso2.carbon.identity.user.ekyc.util.IDVConstants.RESOURCE_NAME;
 
 /**
- * EKYC connector implementation
+ * EKYC connector implementation.
  */
 public class UserEKYCConnectorImpl implements UserEKYCConnector {
 

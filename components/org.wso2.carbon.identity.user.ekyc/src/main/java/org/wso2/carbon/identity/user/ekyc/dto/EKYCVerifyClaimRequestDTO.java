@@ -19,7 +19,7 @@
 package org.wso2.carbon.identity.user.ekyc.dto;
 
 /**
- * DTO for requesting verification of a claim
+ * DTO for requesting verification of a claim.
  */
 public class EKYCVerifyClaimRequestDTO {
     private String sessionId;
