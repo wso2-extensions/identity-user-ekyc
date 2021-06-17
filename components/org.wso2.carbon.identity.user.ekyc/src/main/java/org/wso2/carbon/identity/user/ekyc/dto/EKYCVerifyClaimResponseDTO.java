@@ -19,7 +19,7 @@
 package org.wso2.carbon.identity.user.ekyc.dto;
 
 /**
- * DTO for response of claim verification
+ * DTO for response of claim verification.
  */
 public class EKYCVerifyClaimResponseDTO {
     private String vcValue;

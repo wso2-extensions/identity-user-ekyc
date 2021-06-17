@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * EKYC Verified Credential database DAO
+ * EKYC Verified Credential database DAO.
  */
 public class EKYCVerifiedCredentialDAO {
 

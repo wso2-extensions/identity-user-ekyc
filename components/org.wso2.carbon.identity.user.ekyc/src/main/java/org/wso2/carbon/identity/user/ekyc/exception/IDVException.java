@@ -22,7 +22,7 @@ import org.wso2.carbon.identity.base.IdentityException;
 import org.wso2.carbon.identity.user.ekyc.util.IDVConstants;
 
 /**
- * Exception from communication with IDV hub
+ * Exception from communication with IDV hub.
  */
 public class IDVException extends IdentityException {
 

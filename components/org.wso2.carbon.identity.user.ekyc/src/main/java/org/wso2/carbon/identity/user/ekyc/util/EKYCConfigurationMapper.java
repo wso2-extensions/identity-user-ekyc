@@ -30,14 +30,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Class is used to map EKYCConfiguration to Resource and vice versa
+ * Class is used to map EKYCConfiguration to Resource and vice versa.
  */
 public class EKYCConfigurationMapper {
 
     /**
-     * Method converts resource to <code>EKYCConfigurationDTO</code> object
+     * Method converts resource to <code>EKYCConfigurationDTO</code> object.
      *
-     * @param resource
+     * @param resource EKYC configuration resource
      * @return <code>EKYCConfigurationDTO</code>
      */
     public static EKYCConfigurationDTO buildEKYCConfigurationFromResource(Resource resource) {
@@ -74,9 +74,9 @@ public class EKYCConfigurationMapper {
     }
 
     /**
-     * Method converts <code>EKYCConfigurationDTO</code> to the Resource
+     * Method converts <code>EKYCConfigurationDTO</code> to the Resource.
      *
-     * @param ekycConfiguration
+     * @param ekycConfiguration EKYC configuration
      * @return <code>Resource</code>
      */
     public static Resource buildResourceEKYCConfigurationDTO(EKYCConfigurationDTO ekycConfiguration) {

@@ -19,7 +19,7 @@
 package org.wso2.carbon.identity.user.ekyc.dto;
 
 /**
- * DTO for EKY Session
+ * DTO for EKY Session.
  */
 public class EKYCSessionDTO {
     private String sessionId;

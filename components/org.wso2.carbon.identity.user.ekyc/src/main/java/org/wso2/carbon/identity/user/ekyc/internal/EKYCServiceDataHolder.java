@@ -26,7 +26,7 @@ import org.wso2.carbon.identity.user.ekyc.idv.IDVServiceImpl;
 import org.wso2.carbon.user.core.service.RealmService;
 
 /**
- * Holder for osgi and local services
+ * Holder for osgi and local services.
  */
 public class EKYCServiceDataHolder {
     private RealmService realmService;

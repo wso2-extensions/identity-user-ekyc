@@ -28,68 +28,68 @@ import org.wso2.carbon.user.api.UserStoreException;
 import java.util.List;
 
 /**
- * EKYC connector
+ * EKYC connector.
  */
 public interface UserEKYCConnector {
 
     /**
-     * Generate new EKYC session
+     * Generate new EKYC session.
      *
-     * @param userId
+     * @param userId userId
      * @param tenantId
      * @param service  Name of the service that shoudl be used in IDV, optional
      * @param claims   List of claims that should be returned in Verified Credential
      * @return <code>EKYCSessionDTO</code> with new session and redirect Url to initiate EKC process
-     * @throws UserEKYCException
-     * @throws IDVException
-     * @throws ConfigurationManagementException
+     * @throws UserEKYCException Exception caused by EKYC processing
+     * @throws IDVException Exception caused by IDV hub communication
+     * @throws ConfigurationManagementException Exception caused by EKYC configuration
      */
     EKYCSessionDTO generateNewSession(String userId, int tenantId, String service, List<String> claims) throws
             UserEKYCException, IDVException, ConfigurationManagementException;
 
     /**
-     * Get all verified credentials of user
+     * Get all verified credentials of user.
      *
-     * @param userId
-     * @param tenantId
-     * @return <code>List<EKYCVerifiedCredentialDTO></code>List of Verified Credentials
-     * @throws UserEKYCException
+     * @param userId user Id
+     * @param tenantId tenant Id
+     * @return <code>List&lt;EKYCVerifiedCredentialDTO&gt;</code>List of Verified Credentials
+     * @throws UserEKYCException Exception caused by EKYC processing
      */
     List<EKYCVerifiedCredentialDTO> getVerifiedCredentials(String userId, int tenantId) throws UserEKYCException;
 
     /**
-     * Delete Verified Credential
+     * Delete Verified Credential.
      *
-     * @param sessionId
-     * @param userId
-     * @param tenantId
-     * @throws UserEKYCException
+     * @param sessionId session Id
+     * @param userId user Id
+     * @param tenantId tenant Id
+     * @throws UserEKYCException Exception caused by EKYC processing
      */
     void deleteVerifiedCredential(String sessionId, String userId, int tenantId) throws UserEKYCException;
 
     /**
-     * Fetch update of Verified Credential from IDV hub and save it in db
+     * Fetch update of Verified Credential from IDV hub and save it in db.
      *
-     * @param sessionId
-     * @param userId
-     * @param tenantId
+     * @param sessionId session Id
+     * @param userId user Id
+     * @param tenantId tenant Id
      * @return <code>EKYCVerifiedCredentialDTO</code>Verified Credential
-     * @throws UserEKYCException
-     * @throws IDVException
-     * @throws ConfigurationManagementException
+     * @throws UserEKYCException Exception caused by EKYC processing
+     * @throws IDVException Exception caused by IDV hub communication
+     * @throws ConfigurationManagementException Exception caused by EKYC configuration
      */
     EKYCVerifiedCredentialDTO getPendingVerifiedCredential(String sessionId, String userId, int tenantId) throws
             UserEKYCException, IDVException, ConfigurationManagementException;
 
     /**
-     * Update user claims from Verified Claims based on IDV configuration mapping
+     * Update user claims from Verified Claims based on IDV configuration mapping.
      *
-     * @param sessionId
-     * @param userId
-     * @param tenantId
-     * @throws UserEKYCException
-     * @throws UserStoreException
-     * @throws ConfigurationManagementException
+     * @param sessionId session Id
+     * @param userId user Id
+     * @param tenantId tenant Id
+     * @throws UserEKYCException Exception caused by EKYC processing
+     * @throws UserStoreException Exception caused by operations on User Store
+     * @throws ConfigurationManagementException Exception caused by EKYC configuration
      */
     void updateUserClaimsFromVerifiedCredential(String sessionId, String userId, int tenantId)
             throws UserEKYCException, UserStoreException, ConfigurationManagementException;

@@ -16,7 +16,7 @@
 
 package org.wso2.carbon.identity.user.ekyc.util;
 /**
- * EKYC constants
+ * EKYC constants.
  */
 public class UserEKYCConstants {
 
@@ -24,7 +24,7 @@ public class UserEKYCConstants {
     }
 
     /**
-     * EKYC error messages
+     * EKYC error messages.
      */
     public enum ErrorMessages {
 
@@ -55,7 +55,7 @@ public class UserEKYCConstants {
     }
 
     /**
-     * EKYC SQL Column names
+     * EKYC SQL Column names.
      */
     public static class SQLColumnNames {
         public static final String EKYC_VC_SESSION_ID = "SESSION_ID";
@@ -66,7 +66,7 @@ public class UserEKYCConstants {
     }
 
     /**
-     * EKYC SQL Queries
+     * EKYC SQL Queries.
      */
     public static class SQLQueries {
 
@@ -87,7 +87,7 @@ public class UserEKYCConstants {
     }
 
     /**
-     * EKYC Process Statuses
+     * EKYC Process Statuses.
      */
     public static class EKYCProccessStatuses {
         public static final String PENDING = "PENDING";
